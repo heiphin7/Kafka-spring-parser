@@ -39,8 +39,21 @@ public class Parser {
         String baseUrl = urlBuilder.toString();
 
         try {
-            for (int i = 2; i <= pageCount; i++) {
-                String url = baseUrl + "?page=" + i; // Include "?" before the "page" parameter
+            for (int i = 1; i <= pageCount; i++) {
+                String url;
+
+                /*   Если текущая страница - первая, тогда у нее не должно быть
+                *    атрибута ?page = number, так как первая страница будет
+                *    поэтому делаем проверка на первую страницу
+                */
+
+                if (i == 1) {
+                    url = baseUrl;
+                } else {
+                    url = baseUrl + "?page=" + i; // Include "?" before the "page" parameter
+                }
+
+                // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
                 Document doc = Jsoup.connect(url).get();
                 Elements carAds = doc.select("div.a-list__item");
 
