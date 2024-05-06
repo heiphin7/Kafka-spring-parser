@@ -42,15 +42,16 @@ public class Parser {
             for (int i = 1; i <= pageCount; i++) {
                 String url;
 
-                /*   Если текущая страница - первая, тогда у нее не должно быть
-                *    атрибута ?page = number, так как первая страница будет
-                *    поэтому делаем проверка на первую страницу
+                /*
+                   Если текущая страница - первая, тогда у нее не должно быть
+                   атрибута ?page = number, так как первая страница будет
+                   поэтому делаем проверка на первую страницу
                 */
 
                 if (i == 1) {
                     url = baseUrl;
                 } else {
-                    url = baseUrl + "?page=" + i; // Include "?" before the "page" parameter
+                    url = baseUrl + "?page=" + i; // i -
                 }
 
                 // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
@@ -67,14 +68,24 @@ public class Parser {
                     Element linkElem = ad.selectFirst("a.a-card__link");
                     String link = (linkElem != null) ? BASE_URL + linkElem.attr("href") : "Нет ссылки";
 
-                    System.out.println("Название: " + title);
-                    System.out.println("Цена: " + price);
-                    System.out.println("Ссылка: " + link);
-                    System.out.println("---");
+
+                   if ( // Если нет информации, то ничего не выводим
+                           title.equals("Нет информации о названии") &&
+                           price.equals("Нет информации о цене") &&
+                           link.equals("Нет ссылки")
+                   ) {
+                       break;
+                   } else {
+                       System.out.println("Название: " + title);
+                       System.out.println("Цена: " + price);
+                       System.out.println("Ссылка: " + link);
+                       System.out.println("---");
+                   }
                 }
             }
         } catch (IOException e) {
-            System.out.println("Ошибка при загрузке страницы: " + e.getMessage());
+            System.out.println("Такая марка/модель машины не найдена!");
+            System.out.println(e.getMessage());
         }
     }
 }
