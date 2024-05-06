@@ -42,11 +42,11 @@ public class Parser {
             for (int i = 1; i <= pageCount; i++) {
                 String url;
 
-                /*
-                   Если текущая страница - первая, тогда у нее не должно быть
-                   атрибута ?page = number, так как первая страница будет
-                   поэтому делаем проверка на первую страницу
-                */
+            /*
+               Если текущая страница - первая, тогда у нее не должно быть
+               атрибута ?page = number, так как первая страница будет
+               поэтому делаем проверка на первую страницу
+            */
 
                 if (i == 1) {
                     url = baseUrl;
@@ -68,24 +68,27 @@ public class Parser {
                     Element linkElem = ad.selectFirst("a.a-card__link");
                     String link = (linkElem != null) ? BASE_URL + linkElem.attr("href") : "Нет ссылки";
 
+                    Element descriptionElem = ad.selectFirst("p.a-card__description");
+                    String description = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
 
-                   if ( // Если нет информации, то ничего не выводим
-                           title.equals("Нет информации о названии") &&
-                           price.equals("Нет информации о цене") &&
-                           link.equals("Нет ссылки")
-                   ) {
-                       break;
-                   } else {
-                       System.out.println("Название: " + title);
-                       System.out.println("Цена: " + price);
-                       System.out.println("Ссылка: " + link);
-                       System.out.println("---");
-                   }
+                    if ( // Если нет информации, то ничего не выводим
+                            title.equals("Нет информации о названии") &&
+                                    price.equals("Нет информации о цене") &&
+                                    link.equals("Нет ссылки") &&
+                                    description.equals("Нет описания")
+                    ) {
+                        break;
+                    } else {
+                        System.out.println("Название: " + title);
+                        System.out.println("Цена: " + price);
+                        System.out.println("Ссылка: " + link);
+                        System.out.println("Описание: " + description);
+                        System.out.println("---");
+                    }
                 }
             }
         } catch (IOException e) {
-            System.out.println("Такая марка/модель машины не найдена!");
-            System.out.println(e.getMessage());
+            return;
         }
     }
 }
