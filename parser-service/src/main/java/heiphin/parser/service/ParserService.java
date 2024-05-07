@@ -16,7 +16,8 @@ public class ParserService {
     private static final String BASE_URL = "https://kolesa.kz/";
 
     public List<Car> parseKolesa(String brand) {
-        int pageCount = 100; // Дефолтное количество страниц, которые парсит парсер.
+        int pages = 0;
+        int pageCount = 3; // Дефолтное количество страниц, которые парсит парсер.
         List<Car> carList = new ArrayList<>();
 
         StringBuilder urlBuilder = new StringBuilder(BASE_URL).append("cars/");
@@ -48,7 +49,7 @@ public class ParserService {
                 } else {
                     url = baseUrl + "?page=" + i; // i -
                 }
-
+                System.out.println(++pages);
                 // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
                 Document doc = Jsoup.connect(url).get();
                 Elements carAds = doc.select("div.a-list__item");
@@ -72,17 +73,16 @@ public class ParserService {
                             link.equals("Нет ссылки") &&
                             description.equals("Нет описания")
                     ) {
-                        break;
-                    } else {
-                        Car car = new Car();
-                        car.setName(title);
-                        car.setPrice(price);
-                        car.setLink(link);
-                        car.setDescription(description);
-
-                        System.out.println(car);
-                        carList.add(car);
+                        continue;
                     }
+                    Car car = new Car();
+                    car.setName(title);
+                    car.setPrice(price);
+                    car.setLink(link);
+                    car.setDescription(description);
+
+                    System.out.println(car);
+                    carList.add(car);
                 }
             }
         } catch (IOException e) {
