@@ -34,7 +34,7 @@ public class YouTubeParser {
             Document doc = Jsoup.parse(html);
 
             // Извлекаем блоки с видео
-            Elements videoElements = doc.select("div.video-skeleton");
+            Elements videoElements = doc.select(".style-scope.ytd-rich-grid-row");
 
             // Проверяем, сколько элементов найдено
             System.out.println("Найдено видео: " + videoElements.size());
@@ -42,19 +42,15 @@ public class YouTubeParser {
             // Перебираем каждый элемент с видео и извлекаем информацию
             for (Element videoElement : videoElements) {
                 // Извлекаем заголовок видео
-                Element titleElement = videoElement.selectFirst(".title");
-                String title = titleElement.text();
-
-                // Извлекаем ссылку на видео
-                String videoUrl = "https://www.youtube.com" + titleElement.attr("href");
+                Element titleElement = videoElement.selectFirst(".style-scope #video-title");
+                String title = titleElement != null ? titleElement.text() : "Нет заголовка";
 
                 // Извлекаем количество просмотров
-                Element viewCountElement = videoElement.selectFirst(".video-meta");
-                String viewCount = viewCountElement.text();
+                Element viewCountElement = videoElement.selectFirst(".style-scope #metadata-line");
+                String viewCount = viewCountElement != null ? viewCountElement.text() : "Нет данных о просмотрах";
 
                 // Выводим информацию о видео
                 System.out.println("Title: " + title);
-                System.out.println("URL: " + videoUrl);
                 System.out.println("Views: " + viewCount);
                 System.out.println();
             }
