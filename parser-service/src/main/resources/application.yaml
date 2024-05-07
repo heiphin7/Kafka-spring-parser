@@ -1,1 +1,8 @@
-spring.application.name=parser
+server:
+  port: 1029
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/shopmanager
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
