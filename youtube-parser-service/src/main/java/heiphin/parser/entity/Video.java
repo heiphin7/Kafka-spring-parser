@@ -7,6 +7,6 @@ public class Video {
     private String title;
     private String views;
     private String date;
-    private String priviewLink;
+    private String previewLink;
     private String linkToVideo;
 }
