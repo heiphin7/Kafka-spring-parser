@@ -26,7 +26,7 @@ public class Parser {
             parts[i] = parts[i] + "/";
         }
 
-        parseKolesa(parts, 10); // Parse 10 pages
+        parseKolesa(parts, 10000); // Parse 10 pages
     }
 
     public static void parseKolesa(String[] brand, int pageCount) {
