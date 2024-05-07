@@ -21,9 +21,8 @@ public class ParserService {
         try {
             System.out.println("start parsing");
 
-            // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
             Document doc = Jsoup.connect(FULL_URL).get();
-            Elements videoItems = doc.select("ytd-rich-item-renderer.style-scope ytd-rich-grid-row");
+            Elements videoItems = doc.select("div.style-scope ytd-rich-grid-row");
 
             for (Element ad : videoItems) {
                 System.out.println("цикл сработал");
