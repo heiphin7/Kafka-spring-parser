@@ -17,7 +17,6 @@ public class ParserController {
 
     @PostMapping("/parse/{carName}")
     public List<Car> getCarsByName (@PathVariable String carName) {
-        System.out.println(carName);
         return parserService.parseKolesa(carName);
     }
 }

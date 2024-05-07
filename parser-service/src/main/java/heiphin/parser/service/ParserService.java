@@ -49,7 +49,6 @@ public class ParserService {
                 } else {
                     url = baseUrl + "?page=" + i; // i -
                 }
-                System.out.println(++pages);
                 // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
                 Document doc = Jsoup.connect(url).get();
                 Elements carAds = doc.select("div.a-list__item");
@@ -81,7 +80,6 @@ public class ParserService {
                     car.setLink(link);
                     car.setDescription(description);
 
-                    System.out.println(car);
                     carList.add(car);
                 }
             }
