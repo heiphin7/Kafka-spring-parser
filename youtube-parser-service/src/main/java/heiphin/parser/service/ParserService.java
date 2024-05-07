@@ -12,80 +12,45 @@ import java.util.List;
 
 @Service
 public class ParserService {
-    private static final String BASE_URL = "https://kolesa.kz/";
+    private static final String BASE_URL = "https://www.youtube.com/@";
+    private static final String SECOND_PART_URL = "/videos"; // for parse videos
 
-    public List<Car> parseKolesa(String brand) {
-        int pages = 0;
-        int pageCount = 3; // Дефолтное количество страниц, которые парсит парсер.
-        List<Car> carList = new ArrayList<>();
-
-        StringBuilder urlBuilder = new StringBuilder(BASE_URL).append("cars/");
-        String[] carNameParts = brand.split(" ");
-
-        for (int i = 0; i < carNameParts.length; i++) {
-            carNameParts[i] = carNameParts[i] + "/";
-        }
-
-
-        for (String part : carNameParts) {
-            urlBuilder.append(part);
-        }
-
-        String baseUrl = urlBuilder.toString();
-
+    public void parseYoutube(String channelName) {
+        String FULL_URL = BASE_URL + channelName + SECOND_PART_URL;
+        System.out.println(FULL_URL);
         try {
-            for (int i = 1; i <= pageCount; i++) {
-                String url;
+            System.out.println("start parsing");
 
-            /*
-               Если текущая страница - первая, тогда у нее не должно быть
-               атрибута ?page = number, так как первая страница будет
-               поэтому делаем проверка на первую страницу
-            */
+            // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
+            Document doc = Jsoup.connect(FULL_URL).get();
+            Elements videoItems = doc.select("ytd-rich-item-renderer.style-scope ytd-rich-grid-row");
 
-                if (i == 1) {
-                    url = baseUrl;
-                } else {
-                    url = baseUrl + "?page=" + i; // i -
-                }
-                // Лишь после инициализации ссылки для текущей страницы инициализируем остальные переменные
-                Document doc = Jsoup.connect(url).get();
-                Elements carAds = doc.select("div.a-list__item");
-
-                for (Element ad : carAds) {
-                    Element titleElem = ad.selectFirst("h5.a-card__title a");
+            for (Element ad : videoItems) {
+                System.out.println("цикл сработал");
+                    Element titleElem = ad.selectFirst("span.style-scope yt-formatted-string");
                     String title = (titleElem != null) ? titleElem.text().trim() : "Нет информации о названии";
 
-                    Element priceElem = ad.selectFirst("span.a-card__price");
-                    String price = (priceElem != null) ? priceElem.text().trim() : "Нет информации о цене";
-
-                    Element linkElem = ad.selectFirst("a.a-card__link");
+                    Element linkElem = ad.selectFirst("a.video-title-link");
                     String link = (linkElem != null) ? BASE_URL + linkElem.attr("href") : "Нет ссылки";
 
-                    Element descriptionElem = ad.selectFirst("p.a-card__description");
+                    Element descriptionElem = ad.selectFirst("span.inline-metadata-item style-scope ytd-video-meta-block");
                     String description = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
 
                     if ( // Если нет информации, то ничего не выводим
                             title.equals("Нет информации о названии") &&
-                            price.equals("Нет информации о цене") &&
                             link.equals("Нет ссылки") &&
                             description.equals("Нет описания")
                     ) {
                         continue;
                     }
-                    Car car = new Car();
-                    car.setName(title);
-                    car.setPrice(price);
-                    car.setLink(link);
-                    car.setDescription(description);
 
-                    carList.add(car);
+                    System.out.println(title);
+                    System.out.println(link);
+                    System.out.println(description);
+
                 }
-            }
         } catch (IOException e) {
-            return carList;
+            System.out.println(e.getMessage());
         }
-
-        return carList;
     }
 }

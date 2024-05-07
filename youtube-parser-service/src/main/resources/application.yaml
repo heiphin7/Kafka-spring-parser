@@ -1,5 +1,5 @@
 server:
-  port: 1029
+  port: 1030
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/shopmanager
