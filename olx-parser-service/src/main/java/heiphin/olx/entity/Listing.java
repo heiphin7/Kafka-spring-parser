@@ -1,4 +1,4 @@
-package heiphin.parser.entity;
+package heiphin.olx.entity;
 
 import lombok.Data;
 

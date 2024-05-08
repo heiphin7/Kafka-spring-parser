@@ -1,6 +1,6 @@
-package heiphin.parser.service;
+package heiphin.kolesa.service;
 
-import heiphin.parser.entity.Car;
+import heiphin.kolesa.entity.Car;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ParserService {
+public class KolesaParserService {
     private static final String BASE_URL = "https://kolesa.kz/";
 
     public List<Car> parseKolesa(String brand) {

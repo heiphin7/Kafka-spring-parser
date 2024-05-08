@@ -1,7 +1,7 @@
-package heiphin.parser.controller;
+package heiphin.youtube.controller;
 
-import heiphin.parser.entity.Video;
-import heiphin.parser.service.YouTubeParser;
+import heiphin.youtube.entity.Video;
+import heiphin.youtube.service.YouTubeParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ParserController {
+public class MainController {
 
     private final YouTubeParser parserService;
 

@@ -1,6 +1,6 @@
-package heiphin.parser.service;
+package heiphin.youtube.service;
 
-import heiphin.parser.entity.Video;
+import heiphin.youtube.entity.Video;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

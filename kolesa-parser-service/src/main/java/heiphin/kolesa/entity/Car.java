@@ -1,4 +1,4 @@
-package heiphin.parser.entity;
+package heiphin.kolesa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

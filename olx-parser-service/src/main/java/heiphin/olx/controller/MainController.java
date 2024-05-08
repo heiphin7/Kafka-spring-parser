@@ -1,7 +1,7 @@
-package heiphin.parser.controller;
+package heiphin.olx.controller;
 
-import heiphin.parser.entity.Listing;
-import heiphin.parser.service.ParserService;
+import heiphin.olx.entity.Listing;
+import heiphin.olx.service.ParserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ParserController {
+public class MainController {
 
     private final ParserService parserService;
 

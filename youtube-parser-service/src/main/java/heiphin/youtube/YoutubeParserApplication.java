@@ -1,13 +1,13 @@
-package heiphin.parser;
+package heiphin.youtube;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ParserApplication {
+public class YoutubeParserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ParserApplication.class, args);
+		SpringApplication.run(YoutubeParserApplication.class, args);
 	}
 
 }

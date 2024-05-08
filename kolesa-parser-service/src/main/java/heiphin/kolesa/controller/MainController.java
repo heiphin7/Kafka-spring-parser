@@ -1,7 +1,6 @@
-package heiphin.parser.controller;
+package heiphin.kolesa.controller;
 
 import heiphin.parser.entity.Car;
-import heiphin.parser.service.ParserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,11 +10,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ParserController {
+public class MainController {
 
-    private final ParserService parserService;
+    private final heiphin.parser.service.KolesaParserService parserService;
 
-    @PostMapping("/parse/{carName}")
+    @PostMapping("/parse/{carName}") // parsing by car name
     public List<Car> getCarsByName (@PathVariable String carName) {
         return parserService.parseKolesa(carName);
     }

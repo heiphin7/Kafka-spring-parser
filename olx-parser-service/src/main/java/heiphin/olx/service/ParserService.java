@@ -1,6 +1,6 @@
-package heiphin.parser.service;
+package heiphin.olx.service;
 
-import heiphin.parser.entity.Listing;
+import heiphin.olx.entity.Listing;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

@@ -1,4 +1,4 @@
-package heiphin.parser.entity;
+package heiphin.youtube.entity;
 
 import lombok.Data;
 
