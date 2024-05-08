@@ -10,10 +10,10 @@
         <module name="kolesa-parser-service" />
         <module name="youtube-parser-service" />
         <module name="olx-parser-service" />
-        <module name="avito-parser-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="avito-parser-service" target="17" />
       <module name="parser-service" target="17" />
       <module name="src" target="21" />
     </bytecodeTargetLevel>
@@ -22,6 +22,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="avito-parser-service" options="-parameters" />
       <module name="kolesa-parser-service" options="-parameters" />
+      <module name="olx-parser-service" options="-parameters" />
       <module name="parser-service" options="-parameters" />
       <module name="youtube-parser-service" options="-parameters" />
     </option>
