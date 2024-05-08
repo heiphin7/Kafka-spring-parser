@@ -1,5 +1,6 @@
 package heiphin.parser.service;
 
+import heiphin.parser.entity.Listing;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -7,16 +8,19 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class ParserService {
     private static final String BASE_URL = "https://www.olx.kz/list/q-";
 
-    public void parseKolesa(String query) {
+    public List<Listing> parseOLX(String query) {
+        List<Listing> listForReturn = new ArrayList<>();
+
         String FULL_URL = BASE_URL + query + "/";
 
         // Создаем экземпляр WebDriver
@@ -72,18 +76,20 @@ public class ParserService {
                     continue;
                 }
 
-                System.out.println(title);
-                System.out.println(price);
-                System.out.println(link);
-                System.out.println(locationInfo);
-                System.out.println("====================================");
+                Listing listing = new Listing();
+                listing.setTitle(title);
+                listing.setPrice(price);
+                listing.setLink(link);
+                listing.setLocationInfo(locationInfo);
 
+                listForReturn.add(listing);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            return listForReturn;
         } finally {
             // Закрываем браузер после завершения работы
             webDriver.quit();
         }
+        return listForReturn;
     }
 }

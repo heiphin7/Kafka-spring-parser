@@ -3,7 +3,7 @@ package heiphin.parser.entity;
 import lombok.Data;
 
 @Data
-public class Listring { // "Объявление"
+public class Listing { // "Объявление"
     private String title;
     private String price;
     private String link;
