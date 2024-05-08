@@ -1,10 +1,10 @@
-package heiphin.parser;
+package heiphin.youtube;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ParserApplicationTests {
+class YoutubeParserApplicationTests {
 
 	@Test
 	void contextLoads() {
