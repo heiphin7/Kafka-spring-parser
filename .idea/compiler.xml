@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="youtube-parser-service" />
         <module name="kolesa-parser-service" />
+        <module name="avito-parser-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

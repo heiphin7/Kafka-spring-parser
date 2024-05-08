@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/parser-service/pom.xml" />
         <option value="$PROJECT_DIR$/kolesa-parser-service/pom.xml" />
         <option value="$PROJECT_DIR$/youtube-parser-service/pom.xml" />
+        <option value="$PROJECT_DIR$/avito-parser-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
