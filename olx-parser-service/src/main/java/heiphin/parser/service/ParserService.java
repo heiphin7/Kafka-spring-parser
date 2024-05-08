@@ -56,6 +56,11 @@ public class ParserService {
                 Element descriptionElem = ad.selectFirst("p.css-tyui9s.er34gjf0");
                 String price = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
 
+                // Исключаем объявления с ценой "Договорная"
+                if (price.contains("Договорная")) {
+                    continue;
+                }
+
                 Element locationElem = ad.selectFirst("p.css-1a4brun.er34gjf0");
                 String locationInfo = (locationElem != null) ? locationElem.text().trim() : "Нет местонахождения";
 
