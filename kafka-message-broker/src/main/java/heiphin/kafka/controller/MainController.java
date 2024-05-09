@@ -1,11 +1,10 @@
 package heiphin.kafka.controller;
 
-import org.apache.kafka.clients.producer.RecordMetadata;
+import heiphin.kafka.entity.Car;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,21 +19,16 @@ public class MainController {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplateMessage;
 
-    @PostMapping("/api/{carName}")
-    public ResponseEntity<?> parseWithMicroservice(@PathVariable String carName) {
-        // Отправляем сообщение в Kafka и ожидаем ответа
-        CompletableFuture<SendResult<String, String>> future = kafkaTemplateMessage.send("kolesa-parser-topic", carName);
+    private CompletableFuture<List<Car>> future = new CompletableFuture<>();
 
-        try {
-            // Получаем результат выполнения операции
-            SendResult<String, String> result = future.get();
-            // Получаем ответ из результата
-            RecordMetadata carList = result.getRecordMetadata();
-            // Возвращаем ответ клиенту
-            return ResponseEntity.ok(carList);
-        } catch (InterruptedException | ExecutionException e) {
-            // В случае ошибки возвращаем соответствующий статус
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    @PostMapping("/api/{carName}")
+    public ResponseEntity<List<Car>> parseWithMicroservice(@PathVariable String carName) throws ExecutionException, InterruptedException {
+        kafkaTemplateMessage.send("kolesa-parser-topic", carName);
+        return ResponseEntity.ok().body(future.get());
+    }
+
+    @KafkaListener(groupId = "kolesaGroupId", topics = "kolesa-parser-response")
+    public void kolesaListener(List<Car> carList) {
+        future.complete(carList);
     }
 }
