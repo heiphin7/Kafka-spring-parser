@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="kolesa-parser-service" />
+        <module name="kafka-message-broker" />
         <module name="youtube-parser-service" />
         <module name="olx-parser-service" />
       </profile>

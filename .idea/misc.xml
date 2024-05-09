@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/youtube-parser-service/pom.xml" />
         <option value="$PROJECT_DIR$/avito-parser-service/pom.xml" />
         <option value="$PROJECT_DIR$/olx-parser-service/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-message-broker/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
