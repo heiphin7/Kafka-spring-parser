@@ -8,7 +8,9 @@ import heiphin.kafka.entity.Listing;
 import heiphin.kafka.entity.Video;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +23,21 @@ public class Listeners {
     private final CompletableFuture<List<Car>> kolesaFuture = new CompletableFuture<>();
     private final CompletableFuture<List<Listing>> olxFuture = new CompletableFuture<>();
     private final CompletableFuture<List<Video>> youtubeFuture = new CompletableFuture<>();
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplateMessage;
+
+    public void sendToKolesaParser(String carName) {
+        kafkaTemplateMessage.send("kolesa-parser-topic", carName);
+    }
+
+    public void sendToOlxParser(String thingName) {
+        kafkaTemplateMessage.send("olx-parser-topic", thingName);
+    }
+
+    public void sendToYoutubeParser(String channelName) {
+        kafkaTemplateMessage.send("youtube-parser-topic", channelName);
+    }
 
     @KafkaListener(groupId = "kolesaGroupId", topics = "kolesa-parser-response") // for kolesa parser service
     public void kolesaListener(String carListJson) throws JsonProcessingException { // Изменить тип на String
@@ -42,4 +59,17 @@ public class Listeners {
         List<Video> videoList = new ObjectMapper().readValue(videoListJson, new TypeReference<List<Video>>() {});
         youtubeFuture.complete(videoList);
     }
+
+    public CompletableFuture<List<Car>> getKolesaFuture() {
+        return kolesaFuture;
+    }
+
+    public CompletableFuture<List<Listing>> getOlxFuture() {
+        return olxFuture;
+    }
+
+    public CompletableFuture<List<Video>> getYoutubeFuture() {
+        return youtubeFuture;
+    }
 }
+
