@@ -1,7 +1,7 @@
 package heiphin.olx.controller;
 
 import heiphin.olx.entity.Listing;
-import heiphin.olx.service.ParserService;
+import heiphin.olx.service.OlxParserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final ParserService parserService;
+    private final OlxParserService parserService;
 
     @PostMapping("/parse/{query}")
     public ResponseEntity<?> parserAds (@PathVariable String query) {

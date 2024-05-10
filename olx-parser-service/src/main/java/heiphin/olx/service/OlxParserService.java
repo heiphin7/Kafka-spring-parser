@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class ParserService {
+public class OlxParserService {
     private static final String BASE_URL = "https://www.olx.kz/list/q-";
 
     public List<Listing> parseOLX(String query) {
