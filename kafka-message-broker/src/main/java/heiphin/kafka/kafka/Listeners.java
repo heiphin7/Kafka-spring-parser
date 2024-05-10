@@ -6,18 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import heiphin.kafka.entity.Car;
 import heiphin.kafka.entity.Listing;
 import heiphin.kafka.entity.Video;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Logger;
 
 @Component
 public class Listeners {
 
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(Listeners.class);
+    private static final Logger logger = LoggerFactory.getLogger(Listeners.class);
     private final CompletableFuture<List<Car>> kolesaFuture = new CompletableFuture<>();
     private final CompletableFuture<List<Listing>> olxFuture = new CompletableFuture<>();
     private final CompletableFuture<List<Video>> youtubeFuture = new CompletableFuture<>();

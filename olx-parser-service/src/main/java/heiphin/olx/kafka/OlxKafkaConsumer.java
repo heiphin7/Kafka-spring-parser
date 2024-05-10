@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import heiphin.olx.entity.Listing;
 import heiphin.olx.service.OlxParserService;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,12 +12,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Component
 public class OlxKafkaConsumer {
 
-    private final Logger logger = (Logger) LoggerFactory.getLogger(OlxKafkaConsumer.class);
+    private final Logger logger = LoggerFactory.getLogger(OlxKafkaConsumer.class);
     private final OlxParserService olxParserService;
     private final KafkaTemplate<String, String> kafkaTemplate;
 

@@ -3,6 +3,7 @@ package heiphin.kafka.controller;
 import heiphin.kafka.entity.Car;
 import heiphin.kafka.entity.Listing;
 import heiphin.kafka.entity.Video;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 @RestController
 public class MainController {
@@ -22,7 +22,7 @@ public class MainController {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplateMessage;
 
-    private final Logger logger = (Logger) LoggerFactory.getLogger(MainController.class);
+    private final Logger logger =  LoggerFactory.getLogger(MainController.class);
 
     private final CompletableFuture<List<Car>> kolesaFuture = new CompletableFuture<>();
     private final CompletableFuture<List<Listing>> olxFuture = new CompletableFuture<>();
