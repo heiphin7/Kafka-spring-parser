@@ -1,12 +1,10 @@
 package heiphin.kafka.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import heiphin.kafka.entity.Car;
+import heiphin.kafka.entity.Listing;
+import heiphin.kafka.entity.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,19 +18,28 @@ import java.util.concurrent.ExecutionException;
 public class MainController {
 
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplateMessage; // Заменить на <String, String>
+    private KafkaTemplate<String, String> kafkaTemplateMessage;
 
-    private CompletableFuture<List<Car>> future = new CompletableFuture<>();
+    private final CompletableFuture<List<Car>> kolesaFuture = new CompletableFuture<>();
+    private final CompletableFuture<List<Listing>> olxFuture = new CompletableFuture<>();
+    private final CompletableFuture<List<Video>> youtubeFuturue = new CompletableFuture<>();
 
-    @PostMapping("/api/{carName}")
+    @PostMapping("/api/cars/{carName}")
     public ResponseEntity<List<Car>> parseWithMicroservice(@PathVariable String carName) throws ExecutionException, InterruptedException {
         kafkaTemplateMessage.send("kolesa-parser-topic", carName);
-        return ResponseEntity.ok().body(future.get());
+        return ResponseEntity.ok().body(kolesaFuture.get());
     }
 
-    @KafkaListener(groupId = "kolesaGroupId", topics = "kolesa-parser-response")
-    public void kolesaListener(String carListJson) throws JsonProcessingException { // Изменить тип на String
-        List<Car> carList = new ObjectMapper().readValue(carListJson, new TypeReference<List<Car>>() {}); // Десериализовать из JSON
-        future.complete(carList);
+    @PostMapping("/api/olx/{thingName}")
+    public ResponseEntity<List<Listing>> parserOlx(@PathVariable String thingName) throws ExecutionException, InterruptedException {
+        kafkaTemplateMessage.send("olx-parser-topic", thingName);
+        return ResponseEntity.ok().body(olxFuture.get());
     }
+
+    @PostMapping("/api/youtube/{channelName}")
+    public ResponseEntity<List<Video>> parseYoutubeChannel(@PathVariable String channelName) throws ExecutionException, InterruptedException {
+        kafkaTemplateMessage.send("youtube-parser-topic", channelName);
+        return ResponseEntity.ok().body(youtubeFuturue.get());
+    }
+
 }
