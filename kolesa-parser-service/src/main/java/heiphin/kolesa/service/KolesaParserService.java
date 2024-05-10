@@ -66,11 +66,18 @@ public class KolesaParserService {
                     Element descriptionElem = ad.selectFirst("p.a-card__description");
                     String description = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
 
+                    String previewImageUrl = null;
+                    Element firstImageElement = ad.selectFirst("img");
+                    if (firstImageElement != null) {
+                        previewImageUrl = firstImageElement.attr("src");
+                    }
+
                     if ( // Если нет информации, то ничего не выводим
                             title.equals("Нет информации о названии") &&
                             price.equals("Нет информации о цене") &&
                             link.equals("Нет ссылки") &&
-                            description.equals("Нет описания")
+                            description.equals("Нет описания") &&
+                                    previewImageUrl == null
                     ) {
                         continue;
                     }
@@ -79,6 +86,7 @@ public class KolesaParserService {
                     car.setPrice(price);
                     car.setLink(link);
                     car.setDescription(description);
+                    car.setImageLink(previewImageUrl);
 
                     carList.add(car);
                 }

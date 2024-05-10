@@ -8,4 +8,5 @@ public class Car {
     private String price;
     private String link; // to page
     private String description;
+    private String imageLink;
 }
