@@ -1,7 +1,7 @@
 package heiphin.youtube.controller;
 
 import heiphin.youtube.entity.Video;
-import heiphin.youtube.service.YouTubeParser;
+import heiphin.youtube.service.YouTubeParserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MainController {
 
-    private final YouTubeParser parserService;
+    private final YouTubeParserService parserService;
 
     @PostMapping("/parse/{channelName}")
     public ResponseEntity<?> getVideosInChannel (@PathVariable String channelName) {

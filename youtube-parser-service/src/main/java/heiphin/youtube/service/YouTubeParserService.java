@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class YouTubeParser {
+public class YouTubeParserService {
 
     private static final String BASIC_URL = "https://www.youtube.com/@";
     private static final String SECOND_PART = "/videos";
