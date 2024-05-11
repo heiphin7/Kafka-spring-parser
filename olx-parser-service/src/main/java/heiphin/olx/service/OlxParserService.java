@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class OlxParserService {
     private static final String BASE_URL = "https://www.olx.kz/list/q-";
+    private static final String LISTGIN_URL = "https://www.olx.kz";
 
     public List<Listing> parseOLX(String query) {
         List<Listing> listForReturn = new ArrayList<>();
@@ -55,7 +56,7 @@ public class OlxParserService {
                 String title = (titleElem != null) ? titleElem.text().trim() : "Нет информации о названии";
 
                 Element linkElem = ad.selectFirst("a.css-z3gu2d");
-                String link = (linkElem != null) ? BASE_URL + linkElem.attr("href") : "Нет ссылки";
+                String link = (linkElem != null) ? LISTGIN_URL + linkElem.attr("href") : "Нет ссылки";
 
                 Element descriptionElem = ad.selectFirst("p.css-tyui9s.er34gjf0");
                 String price = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
