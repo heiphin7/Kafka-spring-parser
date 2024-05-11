@@ -21,7 +21,7 @@ public class YoutubeKafkaConsumer {
     private final YouTubeParserService youTubeParser;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @KafkaListener(groupId = "youtubeGroupId", topics = "youtube-parser-topic")
+    @KafkaListener(groupId = "youtube-microservice", topics = "youtube-parser-topic")
     public void youTubeParser(String channelName) throws JsonProcessingException {
         logger.info("Получено сообщение в topic: youtube-parser-topic");
         List<Video> videoList = youTubeParser.parseYoutubeChannel(channelName);

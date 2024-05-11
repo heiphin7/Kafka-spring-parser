@@ -18,19 +18,20 @@ public class KolesaKafkaConsumer {
 
     private final Logger logger = LoggerFactory.getLogger(KolesaKafkaConsumer.class);
     private final KolesaParserService kolesaParserService;
-    private final KafkaTemplate<String, String> kafkaTemplate; // Заменить на <String, String>
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Autowired
-    public KolesaKafkaConsumer(KolesaParserService kolesaParserService, KafkaTemplate<String, String> kafkaTemplate) { // Изменить тип KafkaTemplate
+    public KolesaKafkaConsumer(KolesaParserService kolesaParserService, KafkaTemplate<String, String> kafkaTemplate) {
         this.kolesaParserService = kolesaParserService;
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    @KafkaListener(id = "kolesaGroupId", topics = "kolesa-parser-topic")
+    @KafkaListener(id = "kolesa-microservice", topics = "kolesa-parser-topic")
     public void parseByCarName(String carName) throws JsonProcessingException {
         logger.info("Получено сообщение в topic: kolesa-parser-topic");
         List<Car> carList = kolesaParserService.parseKolesa(carName);
         String carListJson = new ObjectMapper().writeValueAsString(carList); // Сериализовать в JSON
+        System.out.println(carListJson);
         kafkaTemplate.send("kolesa-parser-response", carListJson); // Отправить как JSON строку
     }
 }

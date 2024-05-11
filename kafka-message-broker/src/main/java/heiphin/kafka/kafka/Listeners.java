@@ -20,29 +20,39 @@ import java.util.concurrent.CompletableFuture;
 public class Listeners {
 
     private static final Logger logger = LoggerFactory.getLogger(Listeners.class);
-    private final CompletableFuture<List<Car>> kolesaFuture = new CompletableFuture<>();
-    private final CompletableFuture<List<Listing>> olxFuture = new CompletableFuture<>();
-    private final CompletableFuture<List<Video>> youtubeFuture = new CompletableFuture<>();
-
-    @Autowired
     private KafkaTemplate<String, String> kafkaTemplateMessage;
 
-    public void sendToKolesaParser(String carName) {
+    @Autowired
+    public Listeners(KafkaTemplate<String, String> kafkaTemplateMessage) {
+        this.kafkaTemplateMessage = kafkaTemplateMessage;
+    }
+    CompletableFuture<List<Car>> kolesaFuture;
+    CompletableFuture<List<Listing>> olxFuture;
+    CompletableFuture<List<Video>> youtubeFuture;
+
+
+    public CompletableFuture<List<Car>> sendToKolesaParser(String carName) {
+        kolesaFuture = new CompletableFuture<>();
         kafkaTemplateMessage.send("kolesa-parser-topic", carName);
+        return kolesaFuture;
     }
 
-    public void sendToOlxParser(String thingName) {
+    public CompletableFuture<List<Listing>> sendToOlxParser(String thingName) {
+        olxFuture = new CompletableFuture<>();
         kafkaTemplateMessage.send("olx-parser-topic", thingName);
+        return olxFuture;
     }
 
-    public void sendToYoutubeParser(String channelName) {
+    public CompletableFuture<List<Video>> sendToYoutubeParser(String channelName) {
+        youtubeFuture = new CompletableFuture<>();
         kafkaTemplateMessage.send("youtube-parser-topic", channelName);
+        return youtubeFuture;
     }
 
-    @KafkaListener(groupId = "kolesaGroupId", topics = "kolesa-parser-response") // for kolesa parser service
-    public void kolesaListener(String carListJson) throws JsonProcessingException { // Изменить тип на String
+    @KafkaListener(groupId = "kolesaGroupId", topics = "kolesa-parser-response")
+    public void kolesaListener(String carListJson) throws JsonProcessingException {
         logger.info("Получено сообщение в kafka-message-broker, от: kolesa-parser-service");
-        List<Car> carList = new ObjectMapper().readValue(carListJson, new TypeReference<List<Car>>() {}); // Десериализовать из JSON
+        List<Car> carList = new ObjectMapper().readValue(carListJson, new TypeReference<List<Car>>() {});
         kolesaFuture.complete(carList);
     }
 
@@ -59,17 +69,4 @@ public class Listeners {
         List<Video> videoList = new ObjectMapper().readValue(videoListJson, new TypeReference<List<Video>>() {});
         youtubeFuture.complete(videoList);
     }
-
-    public CompletableFuture<List<Car>> getKolesaFuture() {
-        return kolesaFuture;
-    }
-
-    public CompletableFuture<List<Listing>> getOlxFuture() {
-        return olxFuture;
-    }
-
-    public CompletableFuture<List<Video>> getYoutubeFuture() {
-        return youtubeFuture;
-    }
 }
-

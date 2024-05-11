@@ -8,14 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 public class MainController {
@@ -26,23 +24,29 @@ public class MainController {
     private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @PostMapping("/api/cars/{carName}")
-    public ResponseEntity<List<Car>> parseWithMicroservice(@PathVariable String carName) throws ExecutionException, InterruptedException {
-        listeners.sendToKolesaParser(carName);
-        logger.info("Отправлено сообщение на: kolesa-parser-topic");
-        return ResponseEntity.ok().body(listeners.getKolesaFuture().get());
+    public CompletableFuture<ResponseEntity<List<Car>>> parseWithMicroservice(@PathVariable String carName) {
+        return listeners.sendToKolesaParser(carName)
+                .thenApplyAsync(carList -> {
+                    logger.info("Отправлено сообщение на: kolesa-parser-topic");
+                    return ResponseEntity.ok().body(carList);
+                });
     }
 
     @PostMapping("/api/olx/{thingName}")
-    public ResponseEntity<List<Listing>> parserOlx(@PathVariable String thingName) throws ExecutionException, InterruptedException {
-        listeners.sendToOlxParser(thingName);
-        logger.info("Отправлено сообщение на: olx-parser-topic");
-        return ResponseEntity.ok().body(listeners.getOlxFuture().get());
+    public CompletableFuture<ResponseEntity<List<Listing>>> parserOlx(@PathVariable String thingName) {
+        return listeners.sendToOlxParser(thingName)
+                .thenApplyAsync(listings -> {
+                    logger.info("Отправлено сообщение на: olx-parser-topic");
+                    return ResponseEntity.ok().body(listings);
+                });
     }
 
     @PostMapping("/api/youtube/{channelName}")
-    public ResponseEntity<List<Video>> parseYoutubeChannel(@PathVariable String channelName) throws ExecutionException, InterruptedException {
-        listeners.sendToYoutubeParser(channelName);
-        logger.info("Отправлено сообщение на: youtube-parser-topic");
-        return ResponseEntity.ok().body(listeners.getYoutubeFuture().get());
+    public CompletableFuture<ResponseEntity<List<Video>>> parseYoutubeChannel(@PathVariable String channelName) {
+        return listeners.sendToYoutubeParser(channelName)
+                .thenApplyAsync(videoList -> {
+                    logger.info("Отправлено сообщение на: youtube-parser-topic");
+                    return ResponseEntity.ok().body(videoList);
+                });
     }
 }

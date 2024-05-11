@@ -26,7 +26,7 @@ public class OlxKafkaConsumer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    @KafkaListener(groupId = "olxGroupId", topics = "olx-parser-topic")
+    @KafkaListener(groupId = "olx-microservice", topics = "olx-parser-topic")
     public void parserThingByName(String thingName) throws JsonProcessingException {
         logger.info("Получено сообщение в topic: olx-parser-topic");
         List<Listing> thingsList = olxParserService.parseOLX(thingName);
