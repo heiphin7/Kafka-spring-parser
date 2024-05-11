@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:border-radius="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -79,10 +79,11 @@
                     Для того, чтобы начать парсинг нужно ввести название youtube-канала, и далее будет выдано все видео с данного канала
                 </p>
                 <br>
-                    <input type="text" placeholder="Введите название товара">
-                <br>
-                <br>
-                <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+                  <form th:action="@{/api/youtube/}" method="post">
+                      <input type="text" name="channelName" />
+                      <br><br>
+                      <button type="submit" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
+                  </form>
               </div>
             </div>
 
@@ -104,6 +105,33 @@
               </div>
             </div>
           </div>
+        </div>
+
+        <br>
+        <br>
+        <div class="container">
+            <h1>Результаты парсинга YouTube-канала</h1>
+            <br>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Preview Image</th>
+                    <th>Title</th>
+                    <th>Link</th>
+                    <th>Views</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="video : ${videos}">
+                    <td><img th:src="${video.previewLink}" alt="Preview Image" width="300" height="200" style="border-radius: 10px" border-radius: 50%;></td>
+                    <td th:text="${video.title}"></td>
+                    <td><a th:href="${video.linkToVideo}" th:text="${video.linkToVideo}">Watch</a></td>
+                    <td th:text="${video.views}"></td>
+                    <td th:text="${video.date}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
