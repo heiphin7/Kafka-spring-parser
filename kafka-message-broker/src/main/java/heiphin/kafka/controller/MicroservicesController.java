@@ -23,8 +23,11 @@ import java.util.concurrent.ExecutionException;
 @Controller
 public class MicroservicesController {
 
-    @Autowired
     private Listeners listeners;
+
+    public MicroservicesController(Listeners listeners) {
+        this.listeners = listeners;
+    }
 
     private final Logger logger = LoggerFactory.getLogger(MicroservicesController.class);
 
@@ -48,7 +51,6 @@ public class MicroservicesController {
 
     @PostMapping("/api/youtube/")
     public String parseYoutubeChannel(@RequestParam("channelName") String channelName, Model model) throws ExecutionException, InterruptedException {
-
         CompletableFuture<List<Video>> list = listeners.sendToYoutubeParser(channelName)
                 .thenApplyAsync(videoList -> {
                     logger.info("Отправлено сообщение на: youtube-parser-topic");
@@ -61,12 +63,12 @@ public class MicroservicesController {
         // Проверяем и сохраняем в новый список
         for (Video video: list.get()) {
             // Сохраняем видео, ТОЛЬКО если у него есть ссылка на превью-изображение
-            if (video.getPreviewLink() != null || !video.getPreviewLink().isEmpty() || !video.getPreviewLink().isBlank()){
+            if (video.getPreviewLink() != null && !video.getPreviewLink().isEmpty() && !video.getPreviewLink().isBlank()){
                 videoList.add(video);
             }
         }
         model.addAttribute("videos", videoList);
-        return "index";
+        return "youtube-results";
     }
 
 }

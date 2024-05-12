@@ -7,18 +7,13 @@
         <meta name="author" content="">
         <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
     
-        <title>Pricing example for Bootstrap</title>
+        <title>Main Page</title>
     
         <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
-    
-        <!-- Bootstrap core CSS -->
         <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <!-- Custom styles for this template -->
-        <link href="pricing.css" rel="stylesheet">
 
         <style>
-
     input[type="text"] {
     width: 100%;
     padding: 10px;
@@ -40,9 +35,8 @@
 
       <body>
 
-        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-          <h5 class="my-0 mr-md-auto font-weight-normal">Parser Microservices</h5>
-          <a class="btn btn-outline-primary" href="#">@heiPHin7</a>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow"><h5 class="my-0 mr-md-auto font-weight-normal"><a href="/main">Parser Microservices</a></h5>
+          <a class="btn btn-outline-primary" href="https://github.com/heiphin7">@heiPHin7</a>
         </div>
     
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -65,7 +59,7 @@
                     <input type="text" placeholder="Введите название товара">
                 <br>
                 <br>
-                <button type="button" class="btn btn-lg btn-block btn-outline-primary">Начать парсинг</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
               </div>
             </div>
 
@@ -76,11 +70,11 @@
               </div>
               <div class="card-body">
                 <p class="lead">
-                    Для того, чтобы начать парсинг нужно ввести название youtube-канала, и далее будет выдано все видео с данного канала
+                    Для того, чтобы начать парсинг нужно ввести название youtube-канала, и далее будет выдано все видео с данного канала с нужными параметрами
                 </p>
                 <br>
                   <form th:action="@{/api/youtube/}" method="post">
-                      <input type="text" name="channelName" />
+                      <input type="text" name="channelName" placeholder="Введите название канала"/>
                       <br><br>
                       <button type="submit" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
                   </form>
@@ -95,43 +89,16 @@
               <div class="card-body">
 
                 <p class="lead">
-                    Для начала парсинга необхоидмо ввести название марки/модели машины и далее будут выданы результаты парсинга
+                    Для начала парсинга необходимо ввести название марки/модели машины и далее будут выданы результаты запроса с характеристиками
                 </p>
                 <br>
                     <input type="text" placeholder="Введите название товара">
                 <br>
                 <br>
-                <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+                <button type="button" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
               </div>
             </div>
           </div>
-        </div>
-
-        <br>
-        <br>
-        <div class="container">
-            <h1>Результаты парсинга YouTube-канала</h1>
-            <br>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Preview Image</th>
-                    <th>Title</th>
-                    <th>Link</th>
-                    <th>Views</th>
-                    <th>Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="video : ${videos}">
-                    <td><img th:src="${video.previewLink}" alt="Preview Image" width="300" height="200" style="border-radius: 10px" border-radius: 50%;></td>
-                    <td th:text="${video.title}"></td>
-                    <td><a th:href="${video.linkToVideo}" th:text="${video.linkToVideo}">Watch</a></td>
-                    <td th:text="${video.views}"></td>
-                    <td th:text="${video.date}"></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

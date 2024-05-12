@@ -45,10 +45,12 @@ public class YouTubeParserService {
             // Для прокрутки вниз страницы
             JavascriptExecutor js = (JavascriptExecutor) webDriver;
 
+            Thread.sleep(1500); // Ждём 1.5 секунд для прогрузки видео
+
             // Цикл для скролла вниз
             for (int i = 0; i < 30; i++) {
+                Thread.sleep(100);
                 js.executeScript("window.scrollBy(0,500)");
-                Thread.sleep(10);
             }
 
             Thread.sleep(2000);
