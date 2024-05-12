@@ -93,10 +93,11 @@
                     Для начала парсинга необходимо ввести название марки/модели машины и далее будут выданы результаты запроса с характеристиками
                 </p>
                 <br>
-                    <input type="text" placeholder="Введите название товара">
-                <br>
-                <br>
-                <button type="button" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
+                  <form th:action="@{/api/cars/}" method="post">
+                      <input type="text" name="carName" placeholder="Введите название канала"/>
+                      <br><br>
+                      <button type="submit" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
+                  </form>
               </div>
             </div>
           </div>

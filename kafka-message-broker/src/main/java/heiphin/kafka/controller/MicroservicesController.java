@@ -31,13 +31,18 @@ public class MicroservicesController {
 
     private final Logger logger = LoggerFactory.getLogger(MicroservicesController.class);
 
-    @PostMapping("/api/cars/{carName}")
-    public CompletableFuture<ResponseEntity<List<Car>>> parseWithMicroservice(@PathVariable String carName) {
-        return listeners.sendToKolesaParser(carName)
-                .thenApplyAsync(carList -> {
-                    logger.info("Отправлено сообщение на: kolesa-parser-topic");
-                    return ResponseEntity.ok().body(carList);
-                });
+    @PostMapping("/api/cars/")
+    public String parseWithMicroservice(@RequestParam(name = "carName") String carName, Model model) throws ExecutionException, InterruptedException {
+        CompletableFuture<List<Car>> list = listeners.sendToKolesaParser(carName)
+                .thenApplyAsync(
+                        Cars -> {
+                            logger.info("Отправлено сообщение на kolesa-parser-topic");
+                            return Cars;
+                        }
+                );
+
+        model.addAttribute("cars", list.get());
+        return "kolesa-results";
     }
 
     @PostMapping("/api/olx/")
