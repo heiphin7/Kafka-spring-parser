@@ -28,12 +28,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="video : ${videos}">
-            <td><img th:src="${video.previewLink}" alt="Preview Image" width="300" height="200" style="border-radius: 10px" border-radius: 50%;></td>
-            <td th:text="${video.title}"></td>
-            <td><a th:href="${video.linkToVideo}" th:text="${video.linkToVideo}">Watch</a></td>
-            <td th:text="${video.views}"></td>
-            <td th:text="${video.date}"></td>
+        <tr th:each="listing : ${listingList}">
+            <td><img th:src="${listing.previewImage}" alt="Preview Image" width="300" height="200" style="border-radius: 10px" border-radius: 50%;></td>
+            <td th:text="${listing.title}"></td>
+            <td><a th:href="${listing.link}" th:text="${listing.link}">Watch</a></td>
+            <td th:text="${listing.locationInfo}"></td>
+            <td th:text="${listing.price}"></td>
         </tr>
         </tbody>
     </table>

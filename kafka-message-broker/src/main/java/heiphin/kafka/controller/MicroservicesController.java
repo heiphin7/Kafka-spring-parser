@@ -40,13 +40,18 @@ public class MicroservicesController {
                 });
     }
 
-    @PostMapping("/api/olx/{thingName}")
-    public CompletableFuture<ResponseEntity<List<Listing>>> parserOlx(@PathVariable String thingName) {
-        return listeners.sendToOlxParser(thingName)
-                .thenApplyAsync(listings -> {
-                    logger.info("Отправлено сообщение на: olx-parser-topic");
-                    return ResponseEntity.ok().body(listings);
-                });
+    @PostMapping("/api/olx/")
+    public String parserOlx(@RequestParam("thingName") String thingName, Model model) throws ExecutionException, InterruptedException {
+        CompletableFuture<List<Listing>> list = listeners.sendToOlxParser(thingName)
+                .thenApply(
+                        listings -> {
+                            logger.info("Отправлено сообщение на olx-parser-topic");
+                            return listings;
+                        }
+                );
+
+        model.addAttribute("listingList", list.get());
+        return "olx-results";
     }
 
     @PostMapping("/api/youtube/")

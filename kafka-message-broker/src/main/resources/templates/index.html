@@ -56,10 +56,11 @@
                     Для того, чтобы начать парсинг OLX, вам необходимо ввести название предмета для поиска, и далее вам будут выданы результаты парсинга
                 </p>
                 <br>
-                    <input type="text" placeholder="Введите название товара">
-                <br>
-                <br>
-                <button type="button" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
+                  <form th:action="@{/api/olx/}" method="post">
+                      <input type="text" name="thingName" placeholder="Введите название канала"/>
+                      <br><br>
+                      <button type="submit" class="btn btn-lg btn-block btn-primary">Начать парсинг</button>
+                  </form>
               </div>
             </div>
 

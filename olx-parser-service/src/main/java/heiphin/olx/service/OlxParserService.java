@@ -5,11 +5,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -36,22 +41,33 @@ public class OlxParserService {
 
             // Выполняем скрипты на странице для прокрутки вниз
             JavascriptExecutor js = (JavascriptExecutor) webDriver;
-            js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+
+            // Ждем загрузки всех изображений на странице
+            WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(60));
+            wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.cssSelector("img.css-8wsg1m")));
+
+            Thread.sleep(1000);
+
+            // Цикл для скролла вниз
+            for (int i = 0; i < 15; i++) { // увеличиваем количество скроллов
+                Thread.sleep(250);
+                js.executeScript("window.scrollBy(0,600)");
+            }
 
             // Ждем некоторое время для полной загрузки страницы
-            Thread.sleep(2000);
+            Thread.sleep(1000); // Увеличили время ожидания до 5 секунд
 
-            // Получаем HTML-код страницы
+            // Получаем HTML-код страницы после полной загрузки изображений
             String html = webDriver.getPageSource();
 
             // Создаем объект Document из HTML-кода страницы
             Document doc = Jsoup.parse(html);
 
-            // Извлекаем объявления
-            Elements carAds = doc.select("div.css-1sw7q4x");
+            // Измените код, который ищет изображение в каждом объявлении
+            Elements listings = doc.select("div[data-cy=\"l-card\"]");
 
             // Перебираем каждое объявление и извлекаем информацию
-            for (Element ad : carAds) {
+            for (Element ad : listings) {
                 Element titleElem = ad.selectFirst("h6.css-16v5mdi.er34gjf0");
                 String title = (titleElem != null) ? titleElem.text().trim() : "Нет информации о названии";
 
@@ -61,10 +77,12 @@ public class OlxParserService {
                 Element descriptionElem = ad.selectFirst("p.css-tyui9s.er34gjf0");
                 String price = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
 
-                // Извлекаем превью видео
-                Element previewImageElement = ad.selectFirst("img.css-8wsg1m");
-                String previewImageLink = previewImageElement != null ? previewImageElement.attr("src") : "Нет превью";
-
+                // Проверяем, что изображение найдено и получаем ссылку на него
+                String previewImageLink = "Нет превью";
+                Element previewImageElement = ad.selectFirst("div#" + ad.id() + " img.css-gwhqbt");
+                if (previewImageElement != null && previewImageElement.hasAttr("src")) {
+                    previewImageLink = previewImageElement.attr("src");
+                }
 
                 // Исключаем объявления с ценой "Договорная"
                 if (price.contains("Договорная")) {
@@ -80,6 +98,8 @@ public class OlxParserService {
                                 price.equals("Нет описания")
                 ) {
                     continue;
+                }else if (previewImageLink.equals("Нет превью") || previewImageLink.startsWith("/app/static")) {
+                    continue;
                 }
 
                 Listing listing = new Listing();
@@ -91,8 +111,9 @@ public class OlxParserService {
 
                 listForReturn.add(listing);
             }
+
         } catch (Exception e) {
-            return listForReturn;
+            e.printStackTrace(); // Выводим информацию об ошибке
         } finally {
             // Закрываем браузер после завершения работы
             webDriver.quit();
