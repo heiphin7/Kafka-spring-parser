@@ -1,2 +1,5 @@
+spring:
+  kafka:
+    bootstrap-servers: kafka-container:9092
 server:
   port: 4322

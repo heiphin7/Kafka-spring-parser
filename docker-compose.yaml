@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  zookeeper:
+    image: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: bitnami/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  main-service:
+    build: ./kafka-message-broker
+    container_name: message-broker
+    ports:
+      - "0001:4322"
+    depends_on:
+      - kafka
+
+  kolesa-microservice:
+    build: ./kolesa-parser-service
+    container_name: kolesa-service
+    ports:
+      - "0002:1029"
+    depends_on:
+      - kafka
+
+  olx-microservice:
+    build: ./olx-parser-service
+    container_name: olx-service
+    ports:
+      - "0003:1031"
+    depends_on:
+      - kafka
+
+  youtube-microservice:
+    build: ./youtube-parser-service
+    container_name: youtube-service
+    ports:
+      - "0004:1030"
+    depends_on:
+      - kafka
