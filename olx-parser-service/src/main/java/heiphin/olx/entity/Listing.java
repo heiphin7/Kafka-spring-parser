@@ -8,4 +8,5 @@ public class Listing { // "Объявление"
     private String price;
     private String link;
     private String locationInfo;
+    private String previewImage;
 }

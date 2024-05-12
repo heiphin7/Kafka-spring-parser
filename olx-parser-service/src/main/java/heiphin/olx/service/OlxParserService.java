@@ -61,6 +61,11 @@ public class OlxParserService {
                 Element descriptionElem = ad.selectFirst("p.css-tyui9s.er34gjf0");
                 String price = (descriptionElem != null) ? descriptionElem.text().trim() : "Нет описания";
 
+                // Извлекаем превью видео
+                Element previewImageElement = ad.selectFirst("img.css-8wsg1m");
+                String previewImageLink = previewImageElement != null ? previewImageElement.attr("src") : "Нет превью";
+
+
                 // Исключаем объявления с ценой "Договорная"
                 if (price.contains("Договорная")) {
                     continue;
@@ -82,6 +87,7 @@ public class OlxParserService {
                 listing.setPrice(price);
                 listing.setLink(link);
                 listing.setLocationInfo(locationInfo);
+                listing.setPreviewImage(previewImageLink);
 
                 listForReturn.add(listing);
             }

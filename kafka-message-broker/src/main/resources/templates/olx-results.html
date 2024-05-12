@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Olx results</title>
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a href="/main">Parser Microservices</a></h5>
+    <a class="btn btn-outline-primary" href="https://github.com/heiphin7">@heiPHin7</a>
+</div>
+<br>
+<br>
+<div class="container">
+    <h1>Результаты парсинга YouTube-канала</h1>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Preview Image</th>
+            <th>Title</th>
+            <th>Link</th>
+            <th>Views</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="video : ${videos}">
+            <td><img th:src="${video.previewLink}" alt="Preview Image" width="300" height="200" style="border-radius: 10px" border-radius: 50%;></td>
+            <td th:text="${video.title}"></td>
+            <td><a th:href="${video.linkToVideo}" th:text="${video.linkToVideo}">Watch</a></td>
+            <td th:text="${video.views}"></td>
+            <td th:text="${video.date}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
