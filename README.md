@@ -70,10 +70,8 @@ Olx parser service также парсит вещь по названию. То 
 
 Для установки проекта нужно скопировать репозиторий:
 
-     ```bash
     git clone https://github.com/heiphin7/Kafka-spring-parser
-    ```
-
+    
 Также вам нужно установить и запустить kafka & zookeeper
 
 1. Обычный запуск:
