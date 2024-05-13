@@ -66,3 +66,33 @@ Olx parser service также парсит вещь по названию. То 
 ![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/parser-example.png)
 
 
+# Установка & Запуск
+
+Для установки проекта нужно скопировать репозиторий:
+
+     ```bash
+    git clone https://github.com/heiphin7/Kafka-spring-parser
+    ```
+
+Также вам нужно установить и запустить kafka & zookeeper
+
+1. Обычный запуск:
+
+   Откройте проект в IDE, далее вам нужно запустить каждый из сервисов. далее по localhost:4322/main будет доступен проект.
+   !!! Проверьте чтобы у вас не были заняты порты: 1029, 1030, 1031, 4322. Если заняты, вы можете изменить их в application.yaml
+
+2. Запуск через docker-контейнеры:
+
+   Скачайте docker при необходимости, далее вам нужно собрать каждый из dockerfile используя команду:
+   
+   ```bash
+   docker build -t <tag> .
+   ```
+
+  Далее нужно запустить уже докер image-ы, используя:
+
+  ```bash
+  docker run [docker ports] <image_name>
+  ```
+   
+
