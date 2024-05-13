@@ -51,6 +51,10 @@ Olx parser service также парсит вещь по названию. То 
 
 ![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/microservices.png)
 
+# Пример использования 
+
+![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/test-case.png)
+
 # Frontend
 
 # Main Page
