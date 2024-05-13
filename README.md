@@ -42,7 +42,6 @@ Main-service - "главный сервис" который нужен для о
 Olx parser service также парсит вещь по названию. То есть, она берет название предмета для парсинга а затем парсит все результаты поиска. Она также использует seleniuim для прогрузки скриптов.
 
 
-
 # Как работает система?
 
 Так как проект построен на микросервисной архитектуре, значит ее компоненты взаимодейтсвуют между собой и далее будет понятно как:
@@ -52,19 +51,18 @@ Olx parser service также парсит вещь по названию. То 
 
 ![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/microservices.png)
 
-
 # Frontend
 
 # Main Page
 
-[!alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/main_page.png)
+![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/main_page.png)
 
 # Parsign result №1
 
-[!alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/youtube-resluts.png)
+![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/youtube-resluts.png)
 
 # Parsing result №2
 
-[!alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/parser-example.png)
+![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/parser-example.png)
 
 
