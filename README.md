@@ -48,3 +48,23 @@ Olx parser service также парсит вещь по названию. То 
 Так как проект построен на микросервисной архитектуре, значит ее компоненты взаимодейтсвуют между собой и далее будет понятно как:
 Как было описано выше у нас есть main service, который представляет из себя frontend. Так вот, мы получаем нужные данные, скажем название канала, далее main service кидает сообщение в youtube-parser-topic вместе с названием канала (KafkaTemplate<String, String>). Далее, так как топик "прослушивается" youtube-parser-serivce и его Consumer-ом (Получатель) он обрабатывает запрос и далее кидает ответ.
 
+Все это более понятней на диаграмме:
+
+![alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/microservices.png)
+
+
+# Frontend
+
+# Main Page
+
+[!alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/main_page.png)
+
+# Parsign result №1
+
+[!alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/youtube-resluts.png)
+
+# Parsing result №2
+
+[!alt text](https://github.com/heiphin7/Kafka-spring-parser/blob/main/parser-example.png)
+
+
