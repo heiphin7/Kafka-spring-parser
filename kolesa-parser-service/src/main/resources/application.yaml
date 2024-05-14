@@ -4,4 +4,4 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   kafka:
-    bootstrap-servers: kafka-broker-1:9092
+    bootstrap-servers: localhost:9092

@@ -54,7 +54,6 @@ public class MicroservicesController {
                             return listings;
                         }
                 );
-
         model.addAttribute("listingList", list.get());
         return "olx-results";
     }
@@ -67,12 +66,12 @@ public class MicroservicesController {
                     return videoList;
                 });
 
-        // Для отображения (видео, где есть превью)
+        // Список для отсортированного списка (Где есть превью-изображение)
         List<Video> videoList = new ArrayList<>();
 
         // Проверяем и сохраняем в новый список
         for (Video video: list.get()) {
-            // Сохраняем видео, ТОЛЬКО если у него есть ссылка на превью-изображение
+            // Сохраняем видео, ТОЛЬКО если у него есть ссылка на превью-изображени
             if (video.getPreviewLink() != null && !video.getPreviewLink().isEmpty() && !video.getPreviewLink().isBlank()){
                 videoList.add(video);
             }

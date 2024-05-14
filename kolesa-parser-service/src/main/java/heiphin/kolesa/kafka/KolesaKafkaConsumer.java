@@ -31,7 +31,6 @@ public class KolesaKafkaConsumer {
         logger.info("Получено сообщение в topic: kolesa-parser-topic");
         List<Car> carList = kolesaParserService.parseKolesa(carName);
         String carListJson = new ObjectMapper().writeValueAsString(carList); // Сериализовать в JSON
-        System.out.println(carListJson);
         kafkaTemplate.send("kolesa-parser-response", carListJson); // Отправить как JSON строку
     }
 }

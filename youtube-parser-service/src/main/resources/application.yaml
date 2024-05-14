@@ -2,9 +2,6 @@ server:
   port: 1030
 spring:
   kafka:
-    bootstrap-servers: 192.168.1.121:9092
-  datasource:
-    url: jdbc:postgresql://192.168.1.121:5432/shopmanager
-    username: postgres
-    password: admin
-    driver-class-name: org.postgresql.Driver
+    bootstrap-servers: localhost:9092
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
