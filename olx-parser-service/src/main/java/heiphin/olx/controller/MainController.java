@@ -19,7 +19,7 @@ public class MainController {
     private final OlxParserService parserService;
 
     @PostMapping("/parse/{query}")
-    public ResponseEntity<?> parserAds (@PathVariable String query) throws MalformedURLException {
+    public ResponseEntity<?> parserAds (@PathVariable String query) {
         List<Listing> listings =  parserService.parseOLX(query);
 
         if (listings.isEmpty()) {

@@ -1,10 +1,24 @@
-FROM maven:3.8.4-openjdk-17 AS builder
+FROM ubuntu:22.04
+
+# Обновляем пакеты и устанавливаем необходимые инструменты
+RUN apt-get update && apt-get install -y wget gnupg curl unzip openjdk-17-jdk maven
+
+# Устанавливаем Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
+    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list \
+    && apt-get update && apt-get -y install google-chrome-stable
+
+# Устанавливаем совместимый ChromeDriver
+RUN CHROME_DRIVER_VERSION=$(wget -q -O - https://chromedriver.storage.googleapis.com/LATEST_RELEASE) \
+    && wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
+    && unzip /tmp/chromedriver.zip -d /usr/bin \
+    && rm /tmp/chromedriver.zip \
+    && chmod +x /usr/bin/chromedriver
+
+# Копируем и собираем приложение
 WORKDIR /app
-COPY pom.xml .
-COPY src ./src
+COPY . .
 RUN mvn clean package
 
-FROM openjdk:17-jdk-alpine
-WORKDIR /app
-COPY --from=builder /app/target/parser-0.0.1-SNAPSHOT.jar application.jar
-CMD ["java", "-jar", "application.jar"]
+# Запускаем приложение
+CMD ["java", "-jar", "target/parser-0.0.1-SNAPSHOT.jar"]
