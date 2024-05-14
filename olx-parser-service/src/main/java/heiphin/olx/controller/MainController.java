@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class MainController {
     private final OlxParserService parserService;
 
     @PostMapping("/parse/{query}")
-    public ResponseEntity<?> parserAds (@PathVariable String query) {
+    public ResponseEntity<?> parserAds (@PathVariable String query) throws MalformedURLException {
         List<Listing> listings =  parserService.parseOLX(query);
 
         if (listings.isEmpty()) {

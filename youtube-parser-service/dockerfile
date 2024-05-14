@@ -4,6 +4,21 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package
 
+FROM openjdk:17-jdk-slim AS builder
+
+# Устанавливаем Chrome и ChromeDriver
+RUN apt-get update && apt-get install -y wget gnupg && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && apt-get install -y google-chrome-stable && \
+    CHROME_VERSION=$(google-chrome --version | grep -oE "[0-9]+") && \
+    CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION") && \
+    wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" && \
+    unzip chromedriver_linux64.zip && \
+    mv chromedriver /usr/bin/chromedriver && \
+    chmod +x /usr/bin/chromedriver && \
+    rm chromedriver_linux64.zip
+
 FROM openjdk:17-jdk-alpine
 WORKDIR /app
 COPY --from=builder /app/target/parser-0.0.1-SNAPSHOT.jar application.jar

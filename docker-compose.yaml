@@ -34,3 +34,21 @@ services:
       - kafka
     environment:
       SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
+
+  olx-parser:
+    image: kafka-spring-parser-olx-microservice
+    ports:
+      - "1031:1031"
+    depends_on:
+      - kafka
+    environment:
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092
+
+  youtube-parser:
+    image: kafka-spring-parser-youtube-microservice
+    ports:
+      - "1030:1030"
+    depends_on:
+      - kafka
+    environment:
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:9092

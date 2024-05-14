@@ -11,6 +11,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Component
@@ -27,7 +28,7 @@ public class OlxKafkaConsumer {
     }
 
     @KafkaListener(groupId = "olx-microservice", topics = "olx-parser-topic")
-    public void parserThingByName(String thingName) throws JsonProcessingException {
+    public void parserThingByName(String thingName) throws JsonProcessingException, MalformedURLException {
         logger.info("Получено сообщение в topic: olx-parser-topic");
         List<Listing> thingsList = olxParserService.parseOLX(thingName);
         String thingsListJson = new ObjectMapper().writeValueAsString(thingsList);

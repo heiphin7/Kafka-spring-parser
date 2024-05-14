@@ -8,10 +8,12 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -29,8 +31,11 @@ public class OlxParserService {
 
         String FULL_URL = BASE_URL + query + "/";
 
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+
         // Создаем экземпляр WebDriver
-        WebDriver webDriver = new ChromeDriver();
+        WebDriver webDriver = new ChromeDriver(options);
 
         try {
             // Устанавливаем максимальное время ожидания элементов на странице
